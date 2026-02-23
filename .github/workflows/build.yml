@@ -11,14 +11,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Mono
+      - name: Add Mono APT repository
         run: |
-          sudo apt update
-          sudo apt install -y mono-devel mono-msbuild
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget -O - https://download.mono-project.com/repo/xamarin.asc | 
+            sudo apt-key add -
+          echo "deb https://download.mono-project.com/repo/xamarin/ubuntu/ 
+            noble main" | sudo tee /etc/apt/sources.list.d/mono-official.list
+          sudo apt-get update
 
+      - name: Install Mono and MSBuild
+        run: |
+          sudo apt-get install -y mono-devel mono-msbuild
       - name: Build with MSBuild
         run: |
-          # 确保 MSBuild 在 PATH 中
           export PATH=/usr/bin:$PATH
           msbuild /p:Configuration=Release /p:Platform=AnyCPU
 
