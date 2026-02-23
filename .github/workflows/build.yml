@@ -1,0 +1,29 @@
+name: build UMMLoader
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Mono
+        run: |
+          sudo apt update
+          sudo apt install -y mono-devel mono-msbuild
+
+      - name: Build with MSBuild
+        run: |
+          # 确保 MSBuild 在 PATH 中
+          export PATH=/usr/bin:$PATH
+          msbuild /p:Configuration=Release /p:Platform=AnyCPU
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: UMMLoader
+          path: UMMLoader/bin/Release/UMMLoader.dll
