@@ -94,4 +94,4 @@ jobs:
           LICENSE
           README.md
     - name: List build output
-      run:  Get-ChildItem -Path UMMLoader/bin -Recourse -File 
+      run:  Get-ChildItem -Path UMMLoader/bin -Recurse -File 
