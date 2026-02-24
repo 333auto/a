@@ -89,7 +89,7 @@ jobs:
       with:
         name: UMMLoader-${{ matrix.configuration }}
         path: |
-          UMMLoader/bin/${{ matrix.configuration }}/**/*.dll
-          UMMLoader/bin/${{ matrix.configuration }}/**/*.pdb
+          UMMLoader.dll
+          UMMLoader.pdb
           LICENSE
           README.md
