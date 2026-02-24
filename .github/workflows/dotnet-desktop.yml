@@ -93,3 +93,5 @@ jobs:
           UMMLoader.pdb
           LICENSE
           README.md
+    - name: List build output
+      run:  Get-ChildItem -Path UMMLoader/bin -Recourse -File 
