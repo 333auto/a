@@ -75,23 +75,28 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
-
+    
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
+    - name: restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
-
+    - name: restore the application
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+    - name: List build output
+      run:  Get-ChildItem -Path UMMLoader/bin -Recurse -File 
+  
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: UMMLoader-${{ matrix.configuration }}
         path: |
-          UMMLoader.dll
-          UMMLoader.pdb
+          UMMLoader/bin/**/${{matrix.configuration}}/**/*.dll
+          UMMLoader/bin/**/${{matrix.configuration}}/**/*.pdb
           LICENSE
           README.md
-    - name: List build output
-      run:  Get-ChildItem -Path UMMLoader/bin -Recurse -File 
+
